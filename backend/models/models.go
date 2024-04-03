@@ -5,3 +5,8 @@ type Settings struct {
 	NoOfWavelengths int   `json:"NoOfWavelengths"`
 	Lm              []int `json:"Lm"`
 }
+
+type Data struct {
+	WellIndex        int       `json:"WellIndex"`
+	WavelengthValues []float64 `json:"WavelengthValues"`
+}
