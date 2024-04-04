@@ -1,0 +1,45 @@
+.container {
+  width:450px;
+  height:550px;
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+  border: 5px solid blue;
+  margin:100px 400px;
+}
+ 
+.button {
+  margin: 10px;
+  padding: 4px 8px;
+  width: 120px;
+  border-radius: 5px;
+  background-color: #ECECE5;
+  color: black;
+  border: 1px solid #78A7DB;
+  cursor: pointer;
+}
+
+.tableContainer{
+    margin-top:10px;
+    width:450px;
+}
+
+.table{
+  width: 100%;
+  border:1px black solid;
+}
+
+.table th{
+background-color:#E3E3A5;
+margin:0;
+padding:0;
+color:black;
+}
+
+.table tr{
+  background-color:white;
+}
+
+.table td{
+  width:50%;
+}

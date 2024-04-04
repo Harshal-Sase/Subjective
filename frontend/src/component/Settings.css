@@ -1,0 +1,61 @@
+.container {
+  width:450px;
+  height:550px;
+  background-color: white;
+  border: 5px solid blue;
+}
+
+.edit{
+    margin-top:-10px;
+    margin-left:0px;
+    width:100%;
+    background-color:white;
+    text-align:start;
+}
+
+.dropdown{
+    background-color:red;
+}
+
+.labelBox{
+    background-color:grey;
+    width:350px;
+    height:400px;
+    margin:25px 50px 50px 50px;
+
+}
+ 
+.label {
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-start;
+  background-color:yellow;
+
+}
+
+.name{
+    width:50%;
+    text-align: left;
+    padding:10px 0 0 0;
+}
+ 
+.dropdown {
+  width: 100px;
+}
+ 
+/* Style for dropdown options */
+.dropdown-option {
+  color: #666;
+}
+
+.button {
+  margin: 10px;
+  padding: 4px 8px;
+  width: 120px;
+  border-radius: 5px;
+  background-color: #ECECE5;
+  color: black;
+  border: 1px solid #78A7DB;
+  cursor: pointer;
+}
+
