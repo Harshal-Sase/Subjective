@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/Harshal-Sase/Subjective/handlers"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -20,12 +21,9 @@ func main() {
 
 	router := gin.Default()
 
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:3000"}
+	router.Use(cors.New(config))
+
 	handlers.HandlerEndpoint(router, client, ctx)
-
-	// http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-	// 	fmt.Fprintf(w, "Hello from Go Backend!")
-	// })
-
-	// fmt.Println("Server is running on port 8080...")
-	// http.ListenAndServe(":8090", nil)
 }

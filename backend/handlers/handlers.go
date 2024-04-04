@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"strconv"
 	"sync"
 	"time"
 
@@ -19,7 +20,7 @@ var (
 )
 
 func HandlerEndpoint(router *gin.Engine, client *mongo.Client, ctx context.Context) {
-	collection := client.Database("db-name").Collection("collection-name")
+	collection := client.Database("waves").Collection("settings")
 
 	router.GET("/settings", func(c *gin.Context) {
 		var setting models.Settings
@@ -62,7 +63,8 @@ func HandlerEndpoint(router *gin.Engine, client *mongo.Client, ctx context.Conte
 
 			wavelengthValues := make([]float64, 2)
 			for i := 0; i < len(wavelengthValues); i++ {
-				wavelengthValues[i] = float64(wellIndex) + float64(settings.Lm[i])*0.1
+				lm, _ := strconv.Atoi(settings.Lm[i])
+				wavelengthValues[i] = float64(wellIndex) + float64(lm)*0.1
 			}
 
 			data := models.Data{

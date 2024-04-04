@@ -1,12 +1,12 @@
 import React from "react";
 import "./Startup.css";
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Startup = () => {
   return (
     <div className="container">
       <container>
-        <Link to="/setting">
+        <Link to="/settings">
           <button className="button">Settings...</button>
         </Link>
 

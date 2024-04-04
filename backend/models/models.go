@@ -1,9 +1,9 @@
 package models
 
 type Settings struct {
-	NoOfWells       int   `json:"NoOfWells"`
-	NoOfWavelengths int   `json:"NoOfWavelengths"`
-	Lm              []int `json:"Lm"`
+	NoOfWells       int      `json:"NoOfWells"`
+	NoOfWavelengths int      `json:"NoOfWavelengths"`
+	Lm              []string `json:"Lm"`
 }
 
 type Data struct {
