@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./Settings.css";
+import { Link } from "react-router-dom";
 
 const Settings = () => {
   const [numWells, setNumWells] = useState(96);
@@ -39,9 +40,7 @@ const Settings = () => {
     }
   };
 
-  const handleCancel = () => {
-    // Cancel changes logic here
-  };
+  const handleCancel = () => {};
 
   const validateLmValue = (value) => {
     const intValue = parseInt(value);
@@ -123,9 +122,11 @@ const Settings = () => {
         <button className="button" onClick={handleSave}>
           Ok
         </button>
-        <button className="button" onClick={handleCancel}>
-          Cancel
-        </button>
+        <Link to="/">
+          <button className="button" onClick={handleCancel}>
+            Cancel
+          </button>
+        </Link>
       </div>
     </div>
   );

@@ -1,8 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import "./Startup.css";
 import { Link } from "react-router-dom";
 
 const Startup = () => {
+
+
+  const [numbersCol1, setNumbersCol1] = useState([]);
+  const [numbersCol2, setNumbersCol2] = useState([]);
+  const [isGenerating, setIsGenerating] = useState(false);
+ 
+  useEffect(() => {
+    let intervalId;
+   
+    if (isGenerating) {
+      intervalId = setInterval(generateNumbers, 1000); // Adjust the interval as needed
+    } else {
+      clearInterval(intervalId);
+    }
+   
+    return () => clearInterval(intervalId);
+  }, [isGenerating]);
+ 
+  const generateNumbers = () => {
+    const nextNumber1 = numbersCol1.length + 1;
+    const nextNumber2 = nextNumber1 * 2;
+   
+    setNumbersCol1(prevNumbers => [...prevNumbers, prevNumbers.length+1]);
+    setNumbersCol2(prevNumbers => [...prevNumbers, (prevNumbers.length+1)*2]);
+  };
+ 
+  const toggleGeneration = () => {
+    setIsGenerating(prevIsGenerating => !prevIsGenerating);
+  };
+ 
+  const buttonLabel = isGenerating ? "Stop Acquiring" : "Acquire Data!";
+
   return (
     <div className="container">
       <container>
@@ -10,7 +42,7 @@ const Startup = () => {
           <button className="button">Settings...</button>
         </Link>
 
-        <button className="button">Acquire Data!</button>
+        <button className="button"onClick={toggleGeneration}>{buttonLabel}</button>
         <div className="tableContainer">
           <table className="table">
             <thead>
@@ -18,10 +50,12 @@ const Startup = () => {
               <th>Wavelength Values</th>
             </thead>
             <tbody>
-              <tr>
-                <td>1,1</td>
-                <td>1,2</td>
-              </tr>
+            {numbersCol1.map((number, index) => (
+            <tr key={index}>
+              <td>{number}</td>
+              <td>{numbersCol2[index]}</td>
+            </tr>
+          ))}
             </tbody>
           </table>
         </div>
