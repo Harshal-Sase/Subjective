@@ -13,39 +13,35 @@
     text-align:start;
 }
 
-.dropdown{
-    background-color:red;
-}
 
 .labelBox{
-    background-color:grey;
     width:350px;
     height:400px;
-    margin:25px 50px 50px 50px;
+    padding:70px 35px 35px 35px;
 
 }
  
 .label {
   display:flex;
   flex-direction:row;
-  justify-content:flex-start;
-  background-color:yellow;
-
+  margin-bottom: 25px;
 }
 
 .name{
     width:50%;
     text-align: left;
     padding:10px 0 0 0;
+    font-size: 13px;
 }
  
 .dropdown {
-  width: 100px;
+  width: 170px;
+  border: black 1px solid;
 }
  
-/* Style for dropdown options */
-.dropdown-option {
-  color: #666;
+.input{
+    border: blue 1px solid;
+    width: 165px;
 }
 
 .button {
