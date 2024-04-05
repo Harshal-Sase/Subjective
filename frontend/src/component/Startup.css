@@ -20,13 +20,14 @@
 }
 
 .tableContainer{
-    margin-top:10px;
     width:450px;
+    overflow-y: auto; 
+    height:450px;
+    border: 1px black solid;
 }
 
 .table{
   width: 100%;
-  border:1px black solid;
 }
 
 .table th{
@@ -34,6 +35,7 @@ background-color:#E3E3A5;
 margin:0;
 padding:0;
 color:black;
+width:50%;
 }
 
 .table tr{
