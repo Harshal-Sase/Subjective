@@ -138,25 +138,6 @@ const Settings = () => {
           </select>
         </label>
 
-        {/* {lmValues.map((lmValue, index) => (
-          <div key={index}>
-            <label className="label">
-              <div className="name">{`Lm${index + 1}:`}</div>
-              <input
-                className="input"
-                type="text"
-                value={lmValue}
-                onChange={(e) => handleLmInputChange(index, e)}
-                style={{ borderColor: isValid ? "initial" : "red" }}
-                title={
-                  isValid
-                    ? ""
-                    : "Invalid value. Please enter an integer between 200 and 1000."
-                }
-              />
-            </label>
-          </div>
-        ))} */}
         {renderLmValueInputs()}
 
       </div>
