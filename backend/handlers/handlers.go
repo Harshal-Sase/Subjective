@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var (
@@ -24,7 +25,8 @@ func HandlerEndpoint(router *gin.Engine, client *mongo.Client, ctx context.Conte
 
 	router.GET("/settings", func(c *gin.Context) {
 		var setting models.Settings
-		err := collection.FindOne(ctx, bson.M{}).Decode(&setting)
+		opts := options.FindOne().SetSort(bson.M{"$natural": -1})
+		err := collection.FindOne(ctx, bson.M{}, opts).Decode(&setting)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
@@ -50,7 +52,6 @@ func HandlerEndpoint(router *gin.Engine, client *mongo.Client, ctx context.Conte
 
 	router.GET("/acquire-data", func(c *gin.Context) {
 		stopFlag = false
-		c.JSON(http.StatusOK, gin.H{"buttonText": "Stop Acquiring"})
 		wellIndex := 1
 
 		for !stopFlag {
@@ -77,8 +78,6 @@ func HandlerEndpoint(router *gin.Engine, client *mongo.Client, ctx context.Conte
 
 			time.Sleep(1 * time.Second)
 		}
-
-		c.JSON(http.StatusOK, gin.H{"buttonText": "Acquire Data!"})
 	})
 
 	router.GET("/stop", func(c *gin.Context) {

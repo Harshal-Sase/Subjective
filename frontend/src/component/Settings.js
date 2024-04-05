@@ -1,15 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Settings.css";
 import { Link } from "react-router-dom";
 
 const Settings = () => {
-  const [numWells, setNumWells] = useState(96);
-  const [numWavelengths, setNumWavelengths] = useState(1);
+  const [numWells, setNumWells] = useState(null);
+  const [numWavelengths, setNumWavelengths] = useState(null);
   const [lmValues, setLmValues] = useState(
     Array.from({ length: numWavelengths }, () => "")
   );
   const [isValid, setIsValid] = useState(true);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8090/settings");
+      const numWells = response.data.NoOfWells;
+      const numWavelengths = response.data.NoOfWavelengths;
+      // const lmValues = response.data.Lm;
+      setNumWells(numWells);
+      setNumWavelengths(numWavelengths);
+      // setLmValues(JSON.stringify(lmValues));
+    } catch (error) {
+      console.error("Error fetching data: ", error.response.data);
+    }
+  };
 
   const handleChangeNumWells = (e) => {
     setNumWells(parseInt(e.target.value));
