@@ -60,16 +60,39 @@ const Settings = () => {
 
   const handleCancel = () => {};
 
+  const isButtonDisabled =!isValid;
+
   const validateLmValue = (value) => {
     const intValue = parseInt(value);
     return intValue >= 200 && intValue <= 1000;
   };
+
+  const renderLmValueInput = (lmValue, index) => (
+    <div key={index}>
+      <label className="label">
+        <div className="name">{`Lm${index + 1}:`}</div>
+        <input
+          className="input"
+          type="text"
+          value={lmValue}
+          onChange={(e) => handleLmInputChange(index, e)}
+          placeholder="Enter LM value"
+          style={{ borderColor: isValid ? "initial" : "red" }}
+          title={isValid ? "" : "Invalid value. Please enter an integer between 200 and 1000."}
+        />
+      </label>
+    </div>
+  );
 
   const handleLmInputChange = (index, e) => {
     const newValue = e.target.value;
     const isValidInput = validateLmValue(newValue);
     setIsValid(isValidInput);
     handleChangeLmValue(index, newValue);
+  };
+
+  const renderLmValueInputs = () => {
+    return lmValues.map((lmValue, index) => renderLmValueInput(lmValue, index));
   };
 
   return (
@@ -115,29 +138,12 @@ const Settings = () => {
           </select>
         </label>
 
-        {lmValues.map((lmValue, index) => (
-          <div key={index}>
-            <label className="label">
-              <div className="name">{`Lm${index + 1}:`}</div>
-              <input
-                className="input"
-                type="text"
-                value={lmValue}
-                onChange={(e) => handleLmInputChange(index, e)}
-                style={{ borderColor: isValid ? "initial" : "red" }}
-                title={
-                  isValid
-                    ? ""
-                    : "Invalid value. Please enter an integer between 200 and 1000."
-                }
-              />
-            </label>
-          </div>
-        ))}
+        {renderLmValueInputs()}
+
       </div>
 
       <div className="buttons">
-        <button className="button" onClick={handleSave}>
+        <button disabled={isButtonDisabled} className="button" onClick={handleSave}>
           Ok
         </button>
         <Link to="/">
