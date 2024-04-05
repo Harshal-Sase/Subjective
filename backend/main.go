@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	client := Connect()
+	client := connect()
 	defer client.Disconnect(context.Background())
 
 	handlers.SetCollection(client.Database("waves").Collection("settings"))
@@ -19,7 +19,7 @@ func main() {
 	routes.StartServer()
 }
 
-func Connect() *mongo.Client {
+func connect() *mongo.Client {
 	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
 		log.Fatalln(err)
