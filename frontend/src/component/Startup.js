@@ -31,6 +31,7 @@ const Startup = () => {
  
   const toggleGeneration = () => {
     setIsGenerating(prevIsGenerating => !prevIsGenerating);
+    
   };
  
   const buttonLabel = isGenerating ? "Stop Acquiring" : "Acquire Data!";
