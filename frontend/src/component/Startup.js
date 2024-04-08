@@ -1,70 +1,82 @@
 import React, { useState, useEffect } from 'react';
-import "./Startup.css";
-import { Link } from "react-router-dom";
-
+import { Link } from 'react-router-dom';
+import './Startup.css';
+ 
 const Startup = () => {
-
-
-  const [numbersCol1, setNumbersCol1] = useState([]);
-  const [numbersCol2, setNumbersCol2] = useState([]);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [isAcquiringData, setIsAcquiringData] = useState(false);
+  const [tableData, setTableData] = useState([]);
+  const [isSettingsDisabled, setIsSettingsDisabled] = useState(false);
+  const [isOkDisabled, setIsOkDisabled] = useState(false);
  
   useEffect(() => {
-    let intervalId;
-   
-    if (isGenerating) {
-      intervalId = setInterval(generateNumbers, 1000); // Adjust the interval as needed
-    } else {
-      clearInterval(intervalId);
-    }
-   
-    return () => clearInterval(intervalId);
-  }, [isGenerating]);
- 
-  const generateNumbers = () => {
-    const nextNumber1 = numbersCol1.length + 1;
-    const nextNumber2 = nextNumber1 * 2;
-   
-    setNumbersCol1(prevNumbers => [...prevNumbers, prevNumbers.length+1]);
-    setNumbersCol2(prevNumbers => [...prevNumbers, (prevNumbers.length+1)*2]);
-  };
- 
-  const toggleGeneration = () => {
-    setIsGenerating(prevIsGenerating => !prevIsGenerating);
-    
-  };
- 
-  const buttonLabel = isGenerating ? "Stop Acquiring" : "Acquire Data!";
+    setIsSettingsDisabled(isAcquiringData);
+    setIsOkDisabled(isAcquiringData);
+  }, [isAcquiringData]);
 
+  const handleAcquireData = async () => {
+    try {
+      setIsAcquiringData(true);
+      setIsSettingsDisabled(true);
+      setIsOkDisabled(true);
+
+      const response = await fetch('http://localhost:8090/settings');
+      const data = await response.json();
+      const newData = [];
+      console.log("NumberOFWEells : ",data.NoOfWells);
+      for (let i = 1; i <= data.NoOfWells; i++) {
+        newData.push({ wellIndex: i, wavelengthValues: data.Lm.map(value =>  i + (value / 10)).join(', ') });
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for 1 second
+        setTableData([...newData]);
+      }
+    } catch (error) {
+      console.error('Error acquiring data:', error);
+    }
+  };
+ 
+  const handleStopAcquiring = () => {
+    setIsAcquiringData(false);
+    setIsSettingsDisabled(false);
+    setIsOkDisabled(false);
+  };
+ 
   return (
     <div className="container">
       <container>
         <Link to="/settings">
-          <button className="button">Settings...</button>
+          <button className="button" disabled={isSettingsDisabled}>Settings...</button>
         </Link>
-
-        <button className="button"onClick={toggleGeneration}>{buttonLabel}</button>
+        {isAcquiringData ? (
+          <button type="button" className="button" onClick={handleStopAcquiring}>
+            Stop Acquiring
+          </button>
+        ) : (
+          <button type="button" className="button" onClick={handleAcquireData}>
+            Acquire Data
+          </button>
+        )}
         <div className="tableContainer">
           <table className="table">
             <thead>
-              <th>Well Index</th>
-              <th>Wavelength Values</th>
+              <tr>
+                <th>Well Index</th>
+                <th>Wavelength Values</th>
+              </tr>
             </thead>
             <tbody>
-            {numbersCol1.map((number, index) => (
-            <tr key={index}>
-              <td>{number}</td>
-              <td>{numbersCol2[index]}</td>
-            </tr>
-          ))}
+              {tableData.map(({ wellIndex, wavelengthValues }) => (
+                <tr key={wellIndex}>
+                  <td>{wellIndex}</td>
+                  <td>{wavelengthValues}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
-        <button className="button">OK</button>
+        <button className="button" disabled={isOkDisabled}>OK</button>
         <button className="button">Cancel</button>
       </container>
     </div>
   );
 };
-
+ 
 export default Startup;

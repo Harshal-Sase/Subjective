@@ -2,11 +2,8 @@ package handlers
 
 import (
 	"context"
-	"log"
 	"net/http"
-	"strconv"
 	"sync"
-	"time"
 
 	"github.com/Harshal-Sase/Subjective/models"
 	"github.com/gin-gonic/gin"
@@ -50,41 +47,4 @@ func SaveSettings(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Saved to database!"})
-}
-
-func AcquireData(c *gin.Context) {
-	stopFlag = false
-	wellIndex := 1
-
-	for !stopFlag {
-		var settings models.Settings
-		err := collection.FindOne(context.Background(), bson.M{}).Decode(&settings)
-		if err != nil {
-			log.Println("Error retrieving settings: ", err)
-			continue
-		}
-
-		wavelengthValues := make([]float64, 2)
-		for i := 0; i < len(wavelengthValues); i++ {
-			lm, _ := strconv.Atoi(settings.Lm[i])
-			wavelengthValues[i] = float64(wellIndex) + float64(lm)*0.1
-		}
-
-		data := models.Data{
-			WellIndex:        wellIndex,
-			WavelengthValues: wavelengthValues,
-		}
-		c.JSON(http.StatusOK, data)
-
-		wellIndex++
-
-		time.Sleep(1 * time.Second)
-	}
-}
-
-func StopData(c *gin.Context) {
-	mutex.Lock()
-	defer mutex.Unlock()
-	stopFlag = true
-	c.JSON(http.StatusOK, gin.H{"message": "Data acquisition stopped"})
 }

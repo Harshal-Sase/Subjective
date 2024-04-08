@@ -15,8 +15,6 @@ func StartServer() {
 
 	router.GET("/settings", handlers.RetrieveSettings)
 	router.POST("/settings", handlers.SaveSettings)
-	router.GET("/acquire-data", handlers.AcquireData)
-	router.GET("/stop", handlers.StopData)
 
 	if err := router.Run(":8090"); err != nil {
 		log.Fatal(err)
