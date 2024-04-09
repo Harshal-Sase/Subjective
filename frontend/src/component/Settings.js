@@ -29,7 +29,6 @@ const Settings = () => {
         return;
       }
       const data = await response.json();
-      console.log(data);
       const numWellsApiData = data.NoOfWells;
       const numWavelengthsApiData = data.NoOfWavelengths;
       const lmValuesApiData = data.Lm;

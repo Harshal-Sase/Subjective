@@ -14,8 +14,19 @@ const Startup = () => {
     setIsOkDisabled(isAcquiringData);
   }, [isAcquiringData]);
 
+
+
   const handleAcquireData = async () => {
     try {
+      if (tableData.length > 0) {
+        const overwriteData = window.confirm(
+          "Do you want to overwrite existing data?"
+        );
+        if (!overwriteData) {
+          return; // Stop acquiring data
+        }
+      }
+
       setIsAcquiringData(true);
       setIsSettingsDisabled(true);
       setIsOkDisabled(true);
@@ -35,8 +46,11 @@ const Startup = () => {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
         setTableData([...newData]);
       }
+      setIsAcquiringData(false);
+     
     } catch (error) {
-      console.error("Error acquiring data:", error);
+      console.error("Error acquiring data:", error
+      );
     } finally {
       setIsSettingsDisabled(false);
       setIsOkDisabled(false);
@@ -67,7 +81,7 @@ const Startup = () => {
           </button>
         ) : (
           <button type="button" className="button" onClick={handleAcquireData}>
-            Acquire Data!
+             Acquire Data! 
           </button>
         )}
         <div className="tableContainer">
