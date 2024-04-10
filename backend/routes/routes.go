@@ -4,25 +4,21 @@ import (
 	"log"
 
 	"github.com/Harshal-Sase/Subjective/handlers"
-	"github.com/gin-contrib/cors"
+	"github.com/Harshal-Sase/Subjective/middlewares"
 	"github.com/gin-gonic/gin"
 )
 
 func StartServer() {
-	router := gin.Default()
-
-	enableCors(router)
-
-	router.GET("/settings", handlers.RetrieveSettings)
-	router.POST("/settings", handlers.SaveSettings)
+	router := SetupRouter()
 
 	if err := router.Run(":8090"); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func enableCors(router *gin.Engine) {
-	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"http://localhost:3000"}
-	router.Use(cors.New(config))
+func SetupRouter() *gin.Engine {
+	router := gin.Default()
+	router.GET("/settings", middlewares.CORS(), handlers.RetrieveSettings)
+	router.POST("/settings", middlewares.CORS(), handlers.SaveSettings)
+	return router
 }
