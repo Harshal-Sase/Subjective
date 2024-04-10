@@ -3,7 +3,6 @@ package handlers
 import (
 	"context"
 	"net/http"
-	"sync"
 
 	"github.com/Harshal-Sase/Subjective/models"
 	"github.com/gin-gonic/gin"
@@ -12,11 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var (
-	mutex      sync.Mutex
-	stopFlag   bool
-	collection *mongo.Collection
-)
+var collection *mongo.Collection
 
 func SetCollection(c *mongo.Collection) {
 	collection = c
